@@ -105,7 +105,7 @@ async function loadCards() {
 
             card.innerHTML = `
               <div class="card-body">
-                <h5 class="card-title">${question.title}</h5>
+                <h5 class="card-title" style="display: none;">${question.title}</h5>
                 <p class="card-text">${question.description}</p>
                 <div class="d-grid gap-2">
                   ${answersHTML}
@@ -200,10 +200,25 @@ function showTestResult(btn) {
         if (answ_result[i]) result++;
     }
 
+    /*
+    0-49 danger
+    50-69 warning
+    70-89 primary
+    90-100 info
+    */
+    let res = Math.round(result / cout_q * 100.0)
+    let color_result = ""
+
+    if (res >= 90 && res <= 100) color_result = "info"
+    else if (res >= 70 && res <= 89) color_result = "primary"
+    else if (res >= 50 && res <= 69) color_result = "warning"
+    else color_result = "danger"
+      
+
     btn.innerText = "Пройти тест заного?";
     btn.className = "btn btn-warning";
     document.getElementById("result-test").innerHTML =
-        '<div class="alert alert-primary mt-3" role="alert" id="info-result">Правильно: ' +
+        '<div class="alert alert-' + color_result + ' mt-3" role="alert" id="info-result">Правильно: ' +
         result +
         "/" +
         cout_q +
