@@ -1,7 +1,3 @@
-sudo chmod +x StartServer.sh
-./StartServer.sh
-
-
 # Сервер Локальный и Глобальный
 npx http-server -p 3000
 
