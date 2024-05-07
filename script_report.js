@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     mid_val = Math.ceil(mid_val);
 
     num_q = 0;
-    var table = document.getElementById("table-data");
+    // var table = document.getElementById("table-data");
     for (var i in loadData) {
         let item = loadData[i];
         if (item["value"] >= mid_val) {
@@ -46,7 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
             newRow.appendChild(cell3);
 
             // Добавляем новую строку в таблицу
-            table.appendChild(newRow);
+            var tableBody = document.getElementById("tableBody");
+            tableBody.appendChild(newRow);
         }
     }
 });
