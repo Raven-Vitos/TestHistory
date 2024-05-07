@@ -3,9 +3,9 @@
 from docx import Document
 import re
 
-file_input = 'history_old.docx'
-file_output = 'questions_old.json'
-file_data_error = 'data_old.json'
+file_input = 'history.docx'
+file_output = 'questions.json'
+file_data_error = 'data.json'
 
 class JSON_Object:
     def set_title(self, title):
@@ -94,11 +94,14 @@ def gen_ob(document):
     
     file_data = '[\n'
 
+    n_q = 0
+
     while ip < len(document):
         title = ''
         description = ''
         answer = []
         answers = []
+        n_q += 1
 
         if check_q(document[ip]):   
             num_q = re.findall("^\d+\.\s", document[ip])[0] 
@@ -107,20 +110,21 @@ def gen_ob(document):
                 test_count.append(num_q[:-2])
             else:
                 print("Повторяется: ", num_q[:-2])
+                test_count.append(num_q[:-2])
 
-
-            title = "Вопрос " + num_q    
+              
             description = document[ip][len(num_q):]
             ip += 1
 
-            file_data += '\t{ "id": ' + num_q[:-2] + ', "value": 0 },\n'
+            title = "Вопрос " + str(n_q)  
 
+            file_data += '\t{ "id": ' + str(n_q) + ', "value": 0 },\n'
             while ip < len(document) and not check_q(document[ip]):
                 if document[ip][0] == '+':
-                    answer.append(document[ip][1:])
-                    answers.append(document[ip][1:])
+                    answer.append(document[ip][1:].strip())
+                    answers.append(document[ip][1:].strip())
                 else:
-                    answers.append(document[ip])
+                    answers.append(document[ip].strip())
 
                 ip += 1
 

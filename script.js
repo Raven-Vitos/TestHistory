@@ -110,9 +110,12 @@ async function loadCards() {
                 <div class="d-grid gap-2">
                   ${answersHTML}
                 </div>
-                <p class="correct-answer visually-hidden">${question.answer}</p>
                 <div class="result mt-3"></div>
               </div>`;
+
+            card.answer = question.right_answers
+            card.answer_count = question.right_answers.length
+            card.answer_enter = []
 
             cards.push(card);
         });
@@ -137,27 +140,49 @@ async function loadCards() {
 
 // Функция для проверки ответа на вопросы
 function checkAnswer(button) {
+    if (button.block) return;
+
+    button.block = true;
+    const card = button.closest(".card");
     const cardBody = button.closest(".card-body");
     const question = cardBody.querySelector(".card-title").innerText;
     const userAnswer = button.innerText;
-    const correctAnswer = cardBody.querySelector(".correct-answer").innerText;
+    // const correctAnswer = cardBody.querySelector(".correct-answer").innerText;
     const resultDiv = cardBody.querySelector(".result");
 
+    /*
+        card.answer = question.right_answers
+        card.answer_count = question.right_answers.length
+        card.answer_enter = []
+    */
+
     // Сравниваем ответ пользователя с правильным ответом
-    if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-        //resultDiv.innerHTML = '<div class="alert alert-success" role="alert">Правильно!</div>';
+    if (card.answer.includes(userAnswer)) {
+        //resultDiv.innerHTML = '<div class="alert alert-success" role="alert">Правильно!</div>'; 
         button.classList.add("btn-success");
-        if (!(question in answ_result)) {
-            answ_result[question] = true;
-        }
     } else {
         //resultDiv.innerHTML = '<div class="alert alert-danger" role="alert">Неправильно!</div>';
         button.classList.add("btn-danger");
-        if (!(question in answ_result)) {
-            answ_result[question] = false;
-            wrong_answers.push(question);
-        }
     }
+
+    
+
+    card.answer_enter.push(userAnswer)
+    answ_result[question] = false
+
+    if (card.answer_count == card.answer_enter.length) {
+        let result = true
+        for (var i = 0; i < card.answer_count; i++) {
+            if (!card.answer.includes(card.answer_enter[i]))
+            {
+                result = false
+                break
+            }
+        }
+
+        answ_result[question] = result;
+    }
+
 }
 
 // Функция для проверки ответа на вопросы
@@ -210,9 +235,11 @@ function saveToCookies() {
     document.getElementById("result-test").innerHTML +=
         '<button type="button" class="btn btn-info" id="showReport" onclick="show_report()" style="width: 300px;">Просмотреть отчет</button>';
 
-    // Цикл для добавления объектов в массив
-    for (var i = 0; i < wrong_answers.length; i++) {
-        addParam(jsonDataFailQ, get_id_question(wrong_answers[i]));
+            // Цикл для добавления объектов в массив
+    for (var ans in answ_result) {
+        if (!answ_result[ans]) {          
+            addParam(jsonDataFailQ, get_id_question(ans));
+        }
     }
 
     saveDataToCookie("data", JSON.stringify(jsonDataFailQ), 30);
@@ -223,7 +250,7 @@ function saveToServer() {
     var data = []; // Создаем пустой массив
 
     // Цикл для добавления объектов в массив
-    for (var i = 0; i < wrong_answers.length; i++) {
+    for (var i = 0; i < answ_result.length; i++) {
         var obj = { id: get_id_question(wrong_answers[i]) }; // Создаем объект с нужными свойствами
         data.push(obj); // Добавляем объект в массив
     }

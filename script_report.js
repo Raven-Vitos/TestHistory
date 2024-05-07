@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (item["value"] >= mid_val) {
             num_q++;
             var newRow = document.createElement("tr");
-            newRow.setAttribute("onclick", "show_q('Вопрос " + item["id"] + ". ')");
+            newRow.setAttribute("onclick", "show_q('Вопрос " + item["id"] + "')");
             newRow.setAttribute("data-target", "#exampleModal");
             newRow.setAttribute("data-toggle", "modal");
 
@@ -65,7 +65,13 @@ async function show_q(info) {
 
         data.forEach((question) => {
             if (question["title"] == info) {
-                let text = "Вопрос: " + question["description"] + "<br><br>Ответ: " + question["answer"];
+                let answers = ""
+                for (var i=0; i < question["right_answers"].length; i++)
+                {
+                    answers += question.right_answers[i] + '<br>'
+                }
+
+                let text = "<b>Вопрос</b>:<br>" + question["description"] + "<br><br><b>Ответ:</b><br>" + answers;
                 // alert(text);
                 document.getElementById("info-modal").innerHTML = text;
                 document.getElementById("exampleModalLabel").innerHTML = question["title"];
