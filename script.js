@@ -289,7 +289,7 @@ function get_id_question(str) {
 
 function show_report() {
     // Изменяем URL-адрес текущего окна на нужную ссылку
-    window.location.href = "http://192.168.1.125:3000/report.html";
+    window.location.href = "report.html";
 }
 
 // Обработчик события отправки формы

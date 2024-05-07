@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Получаем ссылку на кнопку по её id и добавляем обработчик события при клике на неё
 document.getElementById("go-back").addEventListener("click", function () {
     // Изменяем URL-адрес текущего окна на нужную ссылку
-    window.location.href = "http://192.168.1.125:3000/"; // Замените 'http://example.com' на нужную вам ссылку
+    window.location.href = "index.html"; // Замените 'http://example.com' на нужную вам ссылку
 });
 
 async function show_q(info) {
