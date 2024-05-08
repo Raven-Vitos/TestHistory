@@ -1,3 +1,4 @@
+
 var answ_result = {};
 var wrong_answers = [];
 
@@ -9,33 +10,8 @@ let jsonDataFailQ = [];
 
 let start_test = false;
 
+
 document.addEventListener("DOMContentLoaded", function () {
-    //clearCookie("data")
-
-    /*
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var data = xhr.responseText;
-          console.log('Получены данные:', data);
-          // Обработка данных после успешной загрузки
-          const par = data.split(';');
-          cout_q = parseInt(par[0])
-          min_q = parseInt(par[1])
-          max_q = parseInt(par[2])
-
-          loadCards();
-
-        } else {
-          console.error('Произошла ошибка:', xhr.status);
-          // Обработка ошибки
-        }
-      }
-    };
-    xhr.open('GET', 'load_settings.php'); // URL вашего PHP-скрипта
-    xhr.send();
-    */
 
     cout_q = getDataFromCookie("allQInput") != "" ? parseInt(getDataFromCookie("allQInput")) : 20;
     min_q = getDataFromCookie("minQInput") != "" ? parseInt(getDataFromCookie("minQInput")) : 1;
@@ -48,9 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
     loadToCookies();
 });
 
+
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
 
 // Функция для генерации уникальных случайных индексов
 function generateUniqueIndices(count, min, max) {
@@ -73,11 +51,12 @@ function generateUniqueIndices(count, min, max) {
     return indices.slice(0, count);
 }
 
+
 // Функция для загрузки данных из JSON и создания карточек
 async function loadCards() {
     try {
         // Загружаем данные из JSON-файла
-        const response = await fetch("questions.json");
+        const response = await fetch(path_database);
         const data = await response.json();
 
         var cards = [];
@@ -123,12 +102,8 @@ async function loadCards() {
         // Создаем карточки на основе данных
         const cardsContainer = document.getElementById("cardsContainer");
 
-        /*for (var cardId in cards) {
-            cardsContainer.appendChild(cards[cardId]);
-        }*/
-
         var uniqueIndices = generateUniqueIndices(cout_q, min_q - 1, max_q - 1);
-        //var uniqueIndices = generateUniqueIndices(cout_q, 0, 250); //!!!!
+
         console.log(uniqueIndices);
         for (var i in uniqueIndices) {
             cardsContainer.appendChild(cards[uniqueIndices[i]]);
@@ -137,6 +112,7 @@ async function loadCards() {
         console.error("Ошибка загрузки данных:", error);
     }
 }
+
 
 // Функция для проверки ответа на вопросы
 function checkAnswer(button) {
@@ -147,25 +123,14 @@ function checkAnswer(button) {
     const cardBody = button.closest(".card-body");
     const question = cardBody.querySelector(".card-title").innerText;
     const userAnswer = button.innerText;
-    // const correctAnswer = cardBody.querySelector(".correct-answer").innerText;
     const resultDiv = cardBody.querySelector(".result");
-
-    /*
-        card.answer = question.right_answers
-        card.answer_count = question.right_answers.length
-        card.answer_enter = []
-    */
 
     // Сравниваем ответ пользователя с правильным ответом
     if (card.answer.includes(userAnswer)) {
-        //resultDiv.innerHTML = '<div class="alert alert-success" role="alert">Правильно!</div>'; 
         button.classList.add("btn-success");
     } else {
-        //resultDiv.innerHTML = '<div class="alert alert-danger" role="alert">Неправильно!</div>';
         button.classList.add("btn-danger");
-    }
-
-    
+    } 
 
     card.answer_enter.push(userAnswer)
     answ_result[question] = false
@@ -194,18 +159,13 @@ function showResult(btn) {
     }
 }
 
+
 function showTestResult(btn) {
     let result = 0;
     for (var i in answ_result) {
         if (answ_result[i]) result++;
     }
 
-    /*
-    0-49 danger
-    50-69 warning
-    70-89 primary
-    90-100 info
-    */
     let res = Math.round(result / cout_q * 100.0)
     let color_result = ""
 
@@ -225,13 +185,15 @@ function showTestResult(btn) {
         "</div>";
 
     start_test = true;
-    // saveToServer();
+
     saveToCookies();
 }
+
 
 function resetTest() {
     location.reload();
 }
+
 
 function loadToCookies() {
     let loadData = getDataFromCookie("data");
@@ -245,12 +207,13 @@ function loadToCookies() {
     console.log("Data:", jsonDataFailQ);
 }
 
+
 function saveToCookies() {
     document.getElementById("info-result").innerHTML += "<br>Данные успешно сохранены на сервере.";
     document.getElementById("result-test").innerHTML +=
         '<button type="button" class="btn btn-info" id="showReport" onclick="show_report()" style="width: 300px;">Просмотреть отчет</button>';
 
-            // Цикл для добавления объектов в массив
+    // Цикл для добавления объектов в массив
     for (var ans in answ_result) {
         if (!answ_result[ans]) {          
             addParam(jsonDataFailQ, get_id_question(ans));
@@ -260,31 +223,6 @@ function saveToCookies() {
     saveDataToCookie("data", JSON.stringify(jsonDataFailQ), 30);
 }
 
-function saveToServer() {
-    // var name = document.getElementById('nameInput').value;
-    var data = []; // Создаем пустой массив
-
-    // Цикл для добавления объектов в массив
-    for (var i = 0; i < answ_result.length; i++) {
-        var obj = { id: get_id_question(wrong_answers[i]) }; // Создаем объект с нужными свойствами
-        data.push(obj); // Добавляем объект в массив
-    }
-
-    var jsonData = JSON.stringify(data); // Преобразуем массив в строку JSON
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "save.php"); // Путь к скрипту на сервере, который будет сохранять файл
-    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            // alert("Данные успешно сохранены на сервере.");
-            document.getElementById("info-result").innerHTML += "<br>Данные успешно сохранены на сервере.";
-            document.getElementById("result-test").innerHTML +=
-                '<button type="button" class="btn btn-info" id="showReport" onclick="show_report()" style="width: 300px;">Просмотреть отчет</button>';
-        }
-    };
-    xhr.send(jsonData);
-}
 
 function get_id_question(str) {
     // Регулярное выражение для поиска числа после слова "Вопрос"
@@ -302,10 +240,12 @@ function get_id_question(str) {
     return 0;
 }
 
+
 function show_report() {
     // Изменяем URL-адрес текущего окна на нужную ссылку
     window.location.href = "report.html";
 }
+
 
 // Обработчик события отправки формы
 document.getElementById("settingsForm").addEventListener("submit", function (event) {
@@ -320,22 +260,4 @@ document.getElementById("settingsForm").addEventListener("submit", function (eve
     saveDataToCookie("maxQInput", maxQ, 30);
 
     resetTest();
-    /*
-    var data = { "all": allQ, "min": minQ, "max": maxQ };
-   
-    var jsonData = JSON.stringify(data); // Преобразуем массив в строку JSON
-
-    console.log('Отправляем имя на сервер:', jsonData);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "settings.php"); // Путь к скрипту на сервере, который будет сохранять файл
-    xhr.setRequestHeader("Content-Type", 'application/json; charset=utf-8');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            //alert("Данные успешно сохранены на сервере.");
-            resetTest();
-        }
-    };
-    xhr.send(jsonData);
-    */
 });

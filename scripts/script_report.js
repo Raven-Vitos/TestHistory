@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     mid_val = Math.ceil(mid_val);
 
     num_q = 0;
-    // var table = document.getElementById("table-data");
+
     for (var i in loadData) {
         let item = loadData[i];
         if (item["value"] >= mid_val) {
@@ -61,7 +61,7 @@ document.getElementById("go-back").addEventListener("click", function () {
 async function show_q(info) {
     try {
         // Загружаем данные из JSON-файла
-        const response = await fetch("questions.json");
+        const response = await fetch(path_database);
         const data = await response.json();
 
         data.forEach((question) => {
@@ -73,7 +73,7 @@ async function show_q(info) {
                 }
 
                 let text = "<b>Вопрос</b>:<br>" + question["description"] + "<br><br><b>Ответ:</b><br>" + answers;
-                // alert(text);
+
                 document.getElementById("info-modal").innerHTML = text;
                 document.getElementById("exampleModalLabel").innerHTML = question["title"];
             }

@@ -3,9 +3,10 @@
 from docx import Document
 import re
 
-file_input = 'history.docx'
-file_output = 'questions.json'
-file_data_error = 'data.json'
+
+file_input = 'data/documents/history.docx'
+file_output = 'data/database/questions.json'
+
 
 class JSON_Object:
     def set_title(self, title):
@@ -87,6 +88,7 @@ def crear_file(file_path):
     with open(file_path, 'r+') as file:
         file.truncate(0)  # Обрезка файла до размера 0
 
+
 def gen_ob(document):
     global test_count
     obects = []
@@ -113,7 +115,7 @@ def gen_ob(document):
                 test_count.append(num_q[:-2])
 
               
-            description = document[ip][len(num_q):]
+            description = document[ip][len(num_q):].strip()
             ip += 1
 
             title = "Вопрос " + str(n_q)  
@@ -138,11 +140,6 @@ def gen_ob(document):
 
             obects.append(json_ob)
 
-    file_data = file_data[:-2] + ('\n]')
-    file = open(file_data_error, 'w')    
-    file.write(file_data)
-    file.close()
-
     return obects
 
 
@@ -157,10 +154,5 @@ with open(file_output, 'w') as file:
 
     file.write(doc)
 
-print("Всего вопростов: ", len(test_count))
 
-exit()
-print("Отсутствуют вопросы:")
-for i in range(1, 1001):
-    if not str(i) in test_count:
-        print(i)
+print("Всего вопростов: ", len(test_count))

@@ -1,3 +1,4 @@
+
 // Сохраняем данные в куки
 function saveDataToCookie(key, value, daysToExpire) {
     var date = new Date();
@@ -5,6 +6,7 @@ function saveDataToCookie(key, value, daysToExpire) {
     var expires = "expires=" + date.toUTCString();
     document.cookie = key + "=" + value + ";" + expires + ";path=/";
 }
+
 
 // Получаем данные из куки
 function getDataFromCookie(key) {
@@ -23,9 +25,11 @@ function getDataFromCookie(key) {
     return "";
 }
 
+
 function clearCookie(key) {
     document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
+
 
 function testJSONSaveInCookies() {
     let data = [ { "id": 1, "value": 0 }, { "id": 5, "value": 0 } ]
@@ -45,15 +49,10 @@ function testJSONSaveInCookies() {
     saveDataToCookie("data", JSON.stringify(load_data), 30);
 }
 
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    testJSONSaveInCookies();
-    clearCookie("data")
-});
-*/
 
 function addParam(data, targetId) {
-    var found = false; // Флаг для обозначения наличия искомого параметра
+    // Флаг для обозначения наличия искомого параметра
+    var found = false; 
 
     // Перебираем элементы массива data
     for (var i = 0; i < data.length; i++) {
