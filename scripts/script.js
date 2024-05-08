@@ -187,6 +187,37 @@ function showTestResult(btn) {
     start_test = true;
 
     saveToCookies();
+
+
+    // Получаем ссылку на элемент img
+    var imgElement = document.getElementById("imagePrice");
+    // Устанавливаем значение атрибута src
+    imgElement.src = "";
+
+    // Устанавливаем значение атрибута alt
+    imgElement.alt = "None";
+
+    switch (color_result) {
+        case "danger":
+            imgElement.src = "contents/images/1.webp";
+            imgElement.alt = "Арлан";
+            break
+        case "warning":
+            imgElement.src = "contents/images/2.webp";
+            imgElement.alt = "Цзинь Юань";
+            break
+        case "primary":
+            imgElement.src = "contents/images/3.webp";
+            imgElement.alt = "Цзиньлю";
+            break
+        case "info":
+            imgElement.src = "contents/images/4.webp";
+            imgElement.alt = "Церный Лебедь";
+            break
+    }
+
+    var myModal = new bootstrap.Modal(document.getElementById('priceModal'));
+    myModal.show();
 }
 
 
