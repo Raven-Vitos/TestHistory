@@ -31,25 +31,6 @@ function clearCookie(key) {
 }
 
 
-function testJSONSaveInCookies() {
-    let data = [ { "id": 1, "value": 0 }, { "id": 5, "value": 0 } ]
-
-    let load_data = getDataFromCookie("data");
-    load_data = load_data != "" ? JSON.parse(load_data) : data
-
-    addParam(load_data, 3);
-
-    console.log(load_data);
-
-    for (var i in load_data) {
-        const row = load_data[i]
-        console.log(row["id"], row["value"]);
-    }
-
-    saveDataToCookie("data", JSON.stringify(load_data), 30);
-}
-
-
 function addParam(data, targetId) {
     // Флаг для обозначения наличия искомого параметра
     var found = false; 
