@@ -29,13 +29,12 @@
                 <label for="maxQInput" class="form-label">Максимальный номер вопроса (max=1000)</label>
                 <input type="text" class="form-control" id="maxQInput" name="max">
               </div>
+              <div class="form-check mt-3 mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckResult">
+                <label class="form-check-label" for="flexCheckDefault">Показывать сразу верно/неверно</label>
+              </div>
               <button type="submit" class="btn btn-primary">Отправить</button>
             </form>
-
-            <div class="form-check mt-3">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckResult">
-              <label class="form-check-label" for="flexCheckDefault">Показывать сразу верно/неверно</label>
-            </div>
           </div>
         </div>
       </div>
@@ -76,6 +75,8 @@
 
     <!-- Подключаем Bootstrap JS и скрипт для обработки ответов -->
     <script src="scripts/bootstrap/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+
+    <script src="data/database/questions.js"></script>
     <script src="scripts/data.js"></script>
     <script src="scripts/cookies.js"></script>
     <script src="scripts/script.js"></script>
