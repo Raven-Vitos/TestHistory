@@ -7,5 +7,3 @@ php -S localhost:3002
 php -S 192.168.1.125:3000
 
 ruby -run -e httpd . -p 3003
-
-https://raven-vitos.github.io/TestHistory/
