@@ -71,7 +71,7 @@ async function loadCards() {
       Object.keys(question['answers']).forEach((key) => {
         const answer = question['answers'][key]
         answers.push(
-          `<button class="btn btn-secondary" onclick="checkAnswer(this)" style="text-align: left;">${answer}</button>`
+          `<button class="btn btn-light" onclick="checkAnswer(this)" style="text-align: left;">${answer}</button>`
         )
       })
 
@@ -131,12 +131,12 @@ function checkAnswer(button) {
   const showColorResult = document.getElementById('flexCheckResult')
   if (showColorResult.checked) {
     if (card.answer.includes(userAnswer)) {
-      button.classList.add('btn-success')
+      button.className = 'btn btn-success'
     } else {
-      button.classList.add('btn-danger')
+      button.className = 'btn btn-danger'
     }
   } else {
-    button.classList.add('btn-dark')
+    button.className = 'btn btn-secondary'
   }
 
   card.answer_enter.push(userAnswer)
@@ -225,7 +225,7 @@ function showTestResult(btn) {
 }
 
 function resetTest() {
-  location.reload()
+  window.location.href = '/'
 }
 
 function loadToCookies() {
