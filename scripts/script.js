@@ -58,9 +58,7 @@ function generateUniqueIndices(count, min, max) {
 // Функция для загрузки данных из JSON и создания карточек
 async function loadCards() {
   try {
-    // Загружаем данные из JSON-файла
-    const response = await fetch(path_database)
-    const data = await response.json()
+    const data = getQuestions()
 
     var cards = []
 
@@ -240,6 +238,14 @@ function loadToCookies() {
   }
 
   console.log('Data:', jsonDataFailQ)
+
+  loadData = getDataFromCookie('show_ans')
+
+  if (loadData != '') {
+    const res = JSON.parse(loadData)
+    const showColorResult = document.getElementById('flexCheckResult')
+    showColorResult.checked = res
+  }
 }
 
 function saveToCookies() {
@@ -292,6 +298,9 @@ document
     saveDataToCookie('allQInput', allQ, 30)
     saveDataToCookie('minQInput', minQ, 30)
     saveDataToCookie('maxQInput', maxQ, 30)
+
+    const showColorResult = document.getElementById('flexCheckResult')
+    saveDataToCookie('show_ans', JSON.stringify(showColorResult.checked), 30)
 
     resetTest()
   })
