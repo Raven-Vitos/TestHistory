@@ -225,11 +225,7 @@ function showTestResult(btn) {
 }
 
 function resetTest() {
-  #window.location.href = '/'
-  location.reload()
-
-  // Возвращаемся к верху страницы
-  window.scrollTo(0, 0);
+  window.location.href = 'https://raven-vitos.github.io/TestHistory/'
 }
 
 function loadToCookies() {
