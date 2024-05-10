@@ -10,8 +10,7 @@ let jsonDataFailQ = []
 let start_test = false
 
 document.addEventListener('DOMContentLoaded', function () {
-  window.scrollTo(0, 0);
-  
+ 
   cout_q =
     getDataFromCookie('allQInput') != ''
       ? parseInt(getDataFromCookie('allQInput'))
