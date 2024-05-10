@@ -225,7 +225,11 @@ function showTestResult(btn) {
 }
 
 function resetTest() {
-  window.location.href = '/'
+  #window.location.href = '/'
+  location.reload()
+
+  // Возвращаемся к верху страницы
+  window.scrollTo(0, 0);
 }
 
 function loadToCookies() {
