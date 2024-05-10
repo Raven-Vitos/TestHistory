@@ -226,7 +226,8 @@ function showTestResult(btn) {
 }
 
 function resetTest() {
-  location.reload();
+  // location.reload();
+  window.location.href = 'index.html'
 }
 
 function loadToCookies() {
